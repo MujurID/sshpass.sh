@@ -11,6 +11,8 @@
 # Thanks: https://www.exratione.com/2014/08/bash-script-ssh-automation-without-a-password-prompt/
 #
 
+trap 'trap - INT; kill -TERM $SSH_PID; kill -INT $$' INT
+
 if [ -n "$SSH_ASKPASS_PASSWORD" ]; then
     cat <<< "$SSH_ASKPASS_PASSWORD"
 elif [ $# -lt 1 ]; then
@@ -25,5 +27,9 @@ else
     [ "$DISPLAY" ] || export DISPLAY=dummydisplay:0
 
     # use setsid to detach from tty
-    exec setsid "$@" </dev/null
+    #exec setsid "$@" </dev/null
+
+    setsid "$@" </dev/null &
+    SSH_PID=$!
+    wait $SSH_PID
 fi
