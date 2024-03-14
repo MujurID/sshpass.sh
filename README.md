@@ -47,7 +47,7 @@ $ (sleep 5; echo YOURSSHPASSWORDHERE; sleep 5; echo date; sleep 1) |socat - EXEC
 
 ## Author
 
-[Huan LI](https://github.com/huan) ([LinkedIn](http://linkedin.com/in/huan42)), Microsoft Regional Director, huan@chatie.io
+[Huan Li](https://github.com/huan) ([LinkedIn](http://linkedin.com/in/huan42)), Microsoft Regional Director, huan@chatie.io
 
 [![Profile of Huan Li on StackOverflow](https://stackexchange.com/users/flair/265499.png)](https://stackexchange.com/users/265499)
 
