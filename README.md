@@ -45,6 +45,16 @@ $ (sleep 5; echo YOURSSHPASSWORDHERE; sleep 5; echo date; sleep 1) |socat - EXEC
 ## Todo
 - find a way out to run inside OpenWRT! ( that is what I REALLY want! )
 
+## History
+
+### Mar 2024
+
+TODO: @mixalbl4-127 PR link, description, author.
+
+### Sep 2015
+
+Initial version
+
 ## Author
 
 [Huan Li](https://github.com/huan) ([LinkedIn](http://linkedin.com/in/huan42)), Microsoft Regional Director, huan@chatie.io
