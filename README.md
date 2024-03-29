@@ -49,7 +49,7 @@ $ (sleep 5; echo YOURSSHPASSWORDHERE; sleep 5; echo date; sleep 1) |socat - EXEC
 
 ### Mar 2024
 
-TODO: @mixalbl4-127 PR link, description, author.
+Added handling of interrupt signal (Ctrl+C) for proper termination of the script and its child processes by @mixalbl4-127
 
 ### Sep 2015
 
