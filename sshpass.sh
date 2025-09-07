@@ -1,34 +1,36 @@
-#!/usr/bin/env bash
+#!/system/bin/sh
 #
-# sshpass.sh - use command line password with ssh
-# https://github.com/huan/sshpass.sh
-#
-# 1st time login to your linux server?
-# without the authorized_keys set, we have to input password.
-# sshpass.sh let you do this by shell script, without expect, without c.
-# 
-# Credit: http://andre.frimberger.de/index.php/linux/reading-ssh-password-from-stdin-the-openssh-5-6p1-compatible-way/
-# Thanks: https://www.exratione.com/2014/08/bash-script-ssh-automation-without-a-password-prompt/
+# sshpass.sh - versi yang kompatibel dengan Android sh
+# Berdasarkan skrip dari https://github.com/huan/sshpass.sh
 #
 
-trap 'trap - INT; kill -TERM $SSH_PID; kill -INT $$' INT
+# Perangkap sinyal untuk membersihkan proses ssh jika skrip diinterupsi
+trap 'trap - INT; kill -TERM $SSH_PID 2>/dev/null; kill -INT $$' INT
 
+# Bagian ini dijalankan oleh ssh untuk mendapatkan kata sandi
 if [ -n "$SSH_ASKPASS_PASSWORD" ]; then
-    cat <<< "$SSH_ASKPASS_PASSWORD"
+    # Mengganti 'cat <<<' (bash) dengan 'echo' (sh)
+    echo "$SSH_ASKPASS_PASSWORD"
+
+# Bagian ini dijalankan saat Anda pertama kali memanggil skrip
 elif [ $# -lt 1 ]; then
-    echo "Usage: echo password | $0 <ssh command line options>" >&2
+    echo "Penggunaan: echo password | $0 <perintah ssh>" >&2
     exit 1
 else
+    # Membaca kata sandi dari input (melalui pipe)
     read SSH_ASKPASS_PASSWORD
 
+    # Mengekspor variabel agar ssh dapat melihatnya
     export SSH_ASKPASS=$0
     export SSH_ASKPASS_PASSWORD
 
-    [ "$DISPLAY" ] || export DISPLAY=dummydisplay:0
+    # SSH_ASKPASS memerlukan variabel DISPLAY, jadi kita buat dummy jika tidak ada
+    if [ -z "$DISPLAY" ]; then
+        export DISPLAY=dummydisplay:0
+    fi
 
-    # use setsid to detach from tty
-    #exec setsid "$@" </dev/null
-
+    # Menjalankan ssh di sesi baru agar terlepas dari terminal
+    # dan memungkinkannya memanggil kembali skrip ini untuk kata sandi
     setsid "$@" </dev/null &
     SSH_PID=$!
     wait $SSH_PID
